@@ -1,0 +1,18 @@
+@import "../../styles/variables";
+@import "../../styles/fonts";
+
+.customTabsClass {
+
+    @include section-header;
+    background-color: $color-light-green;
+    color: white;
+    .Mui-selected {
+        background-color: $color-dark-green;
+        color: white !important;
+    }
+}
+  
+.customTabsClass .MuiTabs-indicator {
+    background-color: white;
+}
+  

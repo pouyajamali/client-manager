@@ -1,0 +1,94 @@
+@font-face {
+  font-family: "Avenir Regular";
+  src: url("../Assets/Font/AvenirNextLTPro-Regular.otf");
+}
+
+
+@font-face {
+  font-family: "Avenir Demi Bold";
+  src: url("../Assets/Font/AvenirNextLTPro-Demi.otf");
+}
+
+@font-face {
+  font-family: "Avenir Bold";
+  src: url("../Assets/Font/AvenirNextLTPro-Bold.otf");
+}
+
+@mixin textarea {
+  font-family: "Avenir Regular";
+  background-color: $alabaster;
+  border: 2px solid $mercury;
+  border-radius: 3px;
+  width: 100%;
+  line-height: 2em;
+  padding-left: 10px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  box-sizing: border-box;
+}
+
+@mixin page-header {
+  font-family: "Avenir Bold";
+  font-size: 33px;
+  line-height: 44px;
+}
+
+@mixin section-header {
+  font-family: "Avenir Bold";
+  font-size: 12px;
+  line-height: 20px;
+}
+
+@mixin sub-header {
+  font-family: "Avenir Bold";
+  font-size: 14px;
+  line-height: 22px;
+}
+
+@mixin body-copy {
+  font-family: "Avenir Regular";
+  font-size: 14px;
+  line-height: 22px;
+}
+
+@mixin labels-buttons {
+  font-family: "Avenir Bold";
+  font-size: 12px;
+  line-height: 20px;
+}
+
+@mixin heading-1 {
+  font-family: "Avenir Bold";
+  font-size: 1.8rem;
+  line-height: 32px;
+}
+
+@mixin heading-2 {
+  font-family: "Avenir Demi Bold";
+  font-size: 1.2rem;
+  line-height: 22px;
+}
+
+@mixin heading-3 {
+  font-family: "Avenir Demi Bold";
+  font-size: 1.1rem;
+  line-height: 18px;
+}
+
+@mixin heading-4 {
+  font-family: "Avenir Regular";
+  font-size: 1.1rem;
+  line-height: 18px;
+}
+
+@mixin heading-5 {
+  font-family: "Avenir Regular";
+  font-size: 0.9rem;
+  line-height: 20px;
+}
+
+@mixin paragraph {
+  font-family: "Avenir Regular";
+  font-size: 1rem;
+  color: $black;
+}

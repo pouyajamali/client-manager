@@ -1,0 +1,33 @@
+@import "../../styles/variables";
+@import "../../styles/fonts";
+ 
+.grid-header {
+    @include section-header
+}
+
+
+.MuiButtonBase-root {
+    color: $color-dark-green !important;
+}
+
+.GridContainer{
+    display: flex;
+    flex-direction: column;
+}
+
+.AddClientButton {
+    margin-left: auto !important;
+    color: white !important;
+    background-color: $color-dark-green !important;
+}
+
+.ClientDeleteButton{
+    border-color: $color-dark-grey !important;
+    color: $color-light-green !important;
+    &:hover {
+        color: red !important;
+    }
+}
+
+
+  

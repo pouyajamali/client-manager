@@ -1,0 +1,26 @@
+[
+  {
+    "id": "cfa5f30d-0993-4401-beb2-d668952f8474",
+    "name": "Heather Kent",
+    "email": "heather.kent@yahoo.com",
+    "phone": "9999999999",
+    "address": "930 Cambie st",
+    "meetings": [
+      {
+        "id": "de2aace8-6a34-4b86-ac31-1dab88f993b1",
+        "title": "Initial Meeting",
+        "body": "<p>Getting to know the client:</p><p><br></p><ul><li>Financial analysis done.</li><li>Second meeting Booked</li></ul><p>.</p>",
+        "date": "2024-05-02T13:39:11.089-07:00"
+      }
+    ]
+  },
+  {
+    "id": "d794ab13-a57e-434a-82bf-4c7e1325e03b",
+    "name": "Ashley Williams",
+    "email": "ashleywilliams@gmail.com",
+    "phone": "3201112222",
+    "address": "8888 University Dr",
+    "meetings": [
+    ]
+  }
+]

@@ -1,0 +1,109 @@
+@import "../../styles/variables";
+@import "../../styles/fonts";
+ 
+.Container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-bottom: 1px solid $color-dark-green;
+
+  .Content {
+    width: 1280px;
+    padding: 1rem 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .Logo {
+      width: 200px;
+      height: 50px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .RightSideWrapper {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .Image {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        object-fit: cover;
+      }
+    }
+  }
+  
+  @media (min-width: 768px) and (max-width: 1279px) {
+    .Content {
+      padding-inline: 2.2rem;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .Content {
+      flex-direction: column;
+      justify-content: center;
+      padding: 1rem 2.2rem 1rem 2.2rem;
+
+      .RightSideWrapper {
+        margin-top: 1rem;
+        width: 100%;
+        flex-direction: column;
+
+        .BrainButton {
+          margin-top: 1rem;
+          width: 100%;
+          order: 10;
+        }
+      }
+    }
+  }
+}
+
+.BrainButton {
+  @include sub-header;
+  margin-left: auto;
+  margin-right: 1rem;
+  height: 65px !important;
+  width: 150px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: white;
+  border: 1px solid $color-dark-green;
+  border-radius: 50px;
+  color: white;
+}
+
+.BrainButton__text {
+  margin-left: auto;
+  margin-right: auto;
+  color: $color-dark-green;
+}
+
+.BrainButtonLogo {
+  height: 50px;
+}
+
+.header-left {
+  display: flex;
+}
+
+.header-button {
+  @include sub-header;
+  margin-left: 3rem;
+  border: 0;
+  background-color: transparent;
+  color: $color-dark-green;
+  border-radius: 20px;
+  width: 80px;
+  font-size: 18px;
+  &:hover {
+    cursor: pointer;
+    background-color: $color-light-green;
+  }
+}

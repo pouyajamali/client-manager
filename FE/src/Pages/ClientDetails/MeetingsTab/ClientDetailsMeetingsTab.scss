@@ -1,0 +1,65 @@
+@import "../../../styles/variables";
+@import "../../../styles/fonts";
+
+.MeetingsTabContainer {
+    display: flex;
+    flex-wrap: wrap;
+
+    @media (max-width: 645px) {
+        justify-content: center;
+        align-items: center;
+    }
+}
+
+.AddMeetingButton {
+    color: white !important;
+    width: 200px !important;
+    margin-top: 1rem !important;
+    background-color: $color-dark-green !important;
+    margin-left: auto !important;
+
+    @media (max-width: 400px) {
+        width: 100% !important;
+        margin: 1rem 0 0 0 !important;
+    }
+
+    &:disabled {
+        background-color: $color-dark-grey !important;
+    }
+}
+
+
+.MeetingsDialog {
+    padding: 1rem;
+    width: 400px !important;
+    height: 500px;
+}
+
+.MeetignsTabTextfield{
+    width: 100%;
+}
+
+.MeetingDialogButton {
+    color: white !important;
+    &.Outlined {
+        border: 1px solid $color-dark-green;
+        color: $color-dark-green !important;
+        &:hover {
+            border: 1px solid $color-dark-green;
+            background-color: $color-light-green !important;
+        }
+    }
+    &.Contained {
+        background-color: $color-dark-green !important;
+    }
+}
+
+.MeetingQuill {
+    height: 300px
+}
+
+.MeetingCardContainer {
+    margin-right: 1rem;
+}
+  
+  

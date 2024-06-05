@@ -1,0 +1,35 @@
+@import "../../styles/variables";
+@import "../../styles/fonts";
+
+.MeetingCardContainer {
+    border-radius: 20px;
+    border: 1px solid $color-medium-grey;
+    width: 150px;
+    height: 150px;
+    padding: 1rem;
+    white-space: wrap;
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    &:hover {
+        background-color: $color-light-green;
+        cursor: pointer;
+    }
+  }
+  
+  .MeetingCardContainer .title {
+    margin-inline: auto;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 3;
+  }
+  
+  .MeetingCardContainer .date {
+    margin-top: auto;
+    margin-bottom: 1rem;
+    color: $color-dark-green;
+  }
+  
