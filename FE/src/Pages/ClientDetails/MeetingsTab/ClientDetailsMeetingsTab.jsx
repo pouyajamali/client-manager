@@ -12,6 +12,14 @@ import TextField from "@mui/material/TextField";
 import { addClientMeeting } from "../../../Apis/Clients";
 import { useParams } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import {
+  DatePicker,
+  TimeField,
+  LocalizationProvider,
+} from "@mui/x-date-pickers";
+// import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
+import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
+import { DateTime } from "luxon";
 
 function ClientDetailsMeetingsTab({ values, refresher }) {
   const [meetings, setMeetings] = useState([]);
@@ -94,17 +102,55 @@ function ClientDetailsMeetingsTab({ values, refresher }) {
         onClose={handleClose}
         open={open}
         className="MeetingsDialogContainer"
+        maxWidth="md"
+        fullWidth
       >
         <DialogContent>
           <div className="MeetingsDialog">
-            <DialogTitle>Meeting Title</DialogTitle>
+            <DialogTitle sx={{ paddingLeft: 0, paddingTop: 0 }}>
+              Meeting Title
+            </DialogTitle>
             <TextField
               className="MeetignsTabTextfield"
               name="meetingTitle"
               value={meetingTitle}
               onChange={handleMeetingTitleChange}
             />
-            <DialogTitle>Meeting Body</DialogTitle>
+
+            <div className="DateTimeContainer">
+              <div>
+                <DialogTitle sx={{ paddingLeft: 0, paddingTop: 0 }}>
+                  Date
+                </DialogTitle>
+                <LocalizationProvider dateAdapter={AdapterLuxon}>
+                  <DatePicker
+                    label="Select date"
+                    defaultValue={DateTime.now()}
+                    // onChange={(newDate) => {
+                    //   setSelectedDate(newDate);
+                    // }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </div>
+              <div>
+                <DialogTitle sx={{ paddingLeft: 0, paddingTop: 0 }}>
+                  Time
+                </DialogTitle>
+                <LocalizationProvider dateAdapter={AdapterLuxon}>
+                  <TimeField
+                    defaultValue={DateTime.now()}
+                    label="Select time"
+                    // value={}
+                    // onChange={(newDate) => {
+                    //   setSelectedDate(newDate);
+                    // }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </div>
+            </div>
+            <DialogTitle sx={{ paddingLeft: 0 }}>Description</DialogTitle>
             <ReactQuill
               theme="snow"
               className="MeetingQuill"
