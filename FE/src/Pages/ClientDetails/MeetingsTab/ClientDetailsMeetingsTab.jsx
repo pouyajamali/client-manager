@@ -21,13 +21,24 @@ import {
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import { DateTime } from "luxon";
 
+const FORM_TYPE = {
+  EDIT: "edit",
+  ADD: "add",
+  VIEW: "view",
+};
+
 function ClientDetailsMeetingsTab({ values, refresher }) {
   const [meetings, setMeetings] = useState([]);
   const [meetingBody, setMeetingBody] = useState("");
   const [open, setOpen] = useState(false);
   const [meetingTitle, setMeetingTitle] = useState("");
   const [dialogType, setDialogType] = useState("view");
+  const [editMeeting, setEditMeeting] = useState(false);
+  const [descriptionReadOnly, setDescriptionReadOnly] = useState(
+    dialogType === "view"
+  );
 
+  
   const { clientId } = useParams();
 
   const handleOpen = (meeting) => {
@@ -43,7 +54,17 @@ function ClientDetailsMeetingsTab({ values, refresher }) {
   };
 
   const handleClose = () => {
+    setDialogType("view");
     setOpen(false);
+  };
+
+  const handleEditMeeting = () => {
+    setDialogType("edit");
+    setDescriptionReadOnly(false);
+  };
+
+  const handleSaveChange = () => {
+    setDialogType("view");
   };
 
   const handleMeetingTitleChange = (event) => {
@@ -151,18 +172,20 @@ function ClientDetailsMeetingsTab({ values, refresher }) {
               </div>
             </div>
             <DialogTitle sx={{ paddingLeft: 0 }}>Description</DialogTitle>
+
             <ReactQuill
-              theme="snow"
-              className="MeetingQuill"
-              value={meetingBody}
-              onChange={setMeetingBody}
-              readOnly={dialogType === "view" ? true : false}
-              modules={{ toolbar: dialogType === "view" ? false : true }}
-            />
+                theme="snow"
+                className="MeetingQuill"
+                value={meetingBody}
+                onChange={setMeetingBody}
+                readOnly={descriptionReadOnly}
+                modules={{ toolbar: !descriptionReadOnly }}
+              />
+              {/* <div onClick={handleEditMeeting}>salam</div> */}
           </div>
         </DialogContent>
         <DialogActions>
-          {dialogType !== "view" && (
+          {dialogType === "add" && (
             <Button
               onClick={handleSubmit}
               variant="contained"
@@ -179,6 +202,24 @@ function ClientDetailsMeetingsTab({ values, refresher }) {
           >
             Cancel
           </Button>
+
+          {dialogType === "edit" && (
+            <Button
+              onClick={handleSaveChange}
+              className="EditMeetingButton Outlined"
+            >
+              Save
+            </Button>
+          )}
+          {dialogType === "view" && (
+            <Button
+              type="button"
+              onClick={handleEditMeeting}
+              className="EditMeetingButton Outlined"
+            >
+              Edit
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </div>
