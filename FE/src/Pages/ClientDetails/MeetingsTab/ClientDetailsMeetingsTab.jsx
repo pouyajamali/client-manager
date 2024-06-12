@@ -12,30 +12,52 @@ import TextField from "@mui/material/TextField";
 import { addClientMeeting } from "../../../Apis/Clients";
 import { useParams } from "react-router-dom";
 import Typography from "@mui/material/Typography";
+import {
+  DatePicker,
+  TimeField,
+  LocalizationProvider,
+} from "@mui/x-date-pickers";
+import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
+import { DateTime } from "luxon";
+
+const FORM_TYPES = {
+  VIEW: 0,
+  ADD: 1,
+  EDIT: 2
+}
 
 function ClientDetailsMeetingsTab({ values, refresher }) {
   const [meetings, setMeetings] = useState([]);
   const [meetingBody, setMeetingBody] = useState("");
   const [open, setOpen] = useState(false);
   const [meetingTitle, setMeetingTitle] = useState("");
-  const [dialogType, setDialogType] = useState("view");
+  const [dialogType, setDialogType] = useState(FORM_TYPES.VIEW);
 
   const { clientId } = useParams();
 
   const handleOpen = (meeting) => {
-    setDialogType("view");
+    setDialogType(FORM_TYPES.VIEW);
     setMeetingTitle(meeting.title);
     setMeetingBody(meeting.body);
     setOpen(true);
   };
 
   const handleOpenAdd = () => {
-    setDialogType("add");
+    setDialogType(FORM_TYPES.ADD);
     setOpen(true);
   };
 
   const handleClose = () => {
+    setDialogType(FORM_TYPES.VIEW);
     setOpen(false);
+  };
+
+  const handleEditMeeting = () => {
+    setDialogType(FORM_TYPES.EDIT);
+  };
+
+  const handleSaveChange = () => {
+    setDialogType(FORM_TYPES.VIEW);
   };
 
   const handleMeetingTitleChange = (event) => {
@@ -57,6 +79,30 @@ function ClientDetailsMeetingsTab({ values, refresher }) {
   useEffect(() => {
     setMeetings(values);
   }, [values]);
+
+  const generateQuill = () => {
+    return dialogType === FORM_TYPES.EDIT || dialogType === FORM_TYPES.ADD ? (
+      <ReactQuill
+        key="editQuill"
+        theme="snow"
+        className="MeetingQuill"
+        value={meetingBody}
+        onChange={setMeetingBody}
+      />
+    ) : (
+      <ReactQuill
+        key="readQuill"
+        theme="snow"
+        className="MeetingQuill"
+        value={meetingBody}
+        onChange={setMeetingBody}
+        readOnly={true}
+        modules={{
+          toolbar: false,
+        }}
+      />
+    );
+  };
 
   return (
     <div style={{ display: "flex", flexDirection: "column" }}>
@@ -94,29 +140,63 @@ function ClientDetailsMeetingsTab({ values, refresher }) {
         onClose={handleClose}
         open={open}
         className="MeetingsDialogContainer"
+        maxWidth="md"
+        fullWidth
       >
         <DialogContent>
           <div className="MeetingsDialog">
-            <DialogTitle>Meeting Title</DialogTitle>
+            <DialogTitle sx={{ paddingLeft: 0, paddingTop: 0 }}>
+              Meeting Title
+            </DialogTitle>
             <TextField
               className="MeetignsTabTextfield"
               name="meetingTitle"
               value={meetingTitle}
               onChange={handleMeetingTitleChange}
+              disabled={dialogType === FORM_TYPES.VIEW}
             />
-            <DialogTitle>Meeting Body</DialogTitle>
-            <ReactQuill
-              theme="snow"
-              className="MeetingQuill"
-              value={meetingBody}
-              onChange={setMeetingBody}
-              readOnly={dialogType === "view" ? true : false}
-              modules={{ toolbar: dialogType === "view" ? false : true }}
-            />
+
+            <div className="DateTimeContainer">
+              <div>
+                <DialogTitle sx={{ paddingLeft: 0, paddingTop: 0 }}>
+                  Date
+                </DialogTitle>
+                <LocalizationProvider dateAdapter={AdapterLuxon}>
+                  <DatePicker
+                    label="Select date"
+                    defaultValue={DateTime.now()}
+                    // onChange={(newDate) => {
+                    //   setSelectedDate(newDate);
+                    // }}
+                    disabled={dialogType === FORM_TYPES.VIEW}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </div>
+              <div>
+                <DialogTitle sx={{ paddingLeft: 0, paddingTop: 0 }}>
+                  Time
+                </DialogTitle>
+                <LocalizationProvider dateAdapter={AdapterLuxon}>
+                  <TimeField
+                    defaultValue={DateTime.now()}
+                    label="Select time"
+                    disabled={dialogType === FORM_TYPES.VIEW}
+                    // value={}
+                    // onChange={(newDate) => {
+                    //   setSelectedDate(newDate);
+                    // }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </div>
+            </div>
+            <DialogTitle sx={{ paddingLeft: 0 }}>Description</DialogTitle>
+            {generateQuill()}
           </div>
         </DialogContent>
         <DialogActions>
-          {dialogType !== "view" && (
+          {dialogType === FORM_TYPES.ADD && (
             <Button
               onClick={handleSubmit}
               variant="contained"
@@ -133,6 +213,24 @@ function ClientDetailsMeetingsTab({ values, refresher }) {
           >
             Cancel
           </Button>
+
+          {dialogType === FORM_TYPES.EDIT && (
+            <Button
+              onClick={handleSaveChange}
+              className="EditMeetingButton Outlined"
+            >
+              Save
+            </Button>
+          )}
+          {dialogType === FORM_TYPES.VIEW && (
+            <Button
+              type="button"
+              onClick={handleEditMeeting}
+              className="EditMeetingButton Outlined"
+            >
+              Edit
+            </Button>
+          )}
         </DialogActions>
       </Dialog>
     </div>

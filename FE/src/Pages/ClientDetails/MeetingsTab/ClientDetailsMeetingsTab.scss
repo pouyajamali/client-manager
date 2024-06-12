@@ -29,9 +29,23 @@
 }
 
 
+.EditMeetingButton {
+    color: white !important;
+    background-color: $color-dark-green !important;
+    @media (max-width: 400px) {
+        width: 100% !important;
+        margin: 1rem 0 0 0 !important;
+    }
+
+    &:disabled {
+        background-color: $color-dark-grey !important;
+    }
+}
+
+
 .MeetingsDialog {
     padding: 1rem;
-    width: 400px !important;
+    width: 100% !important;
     height: 500px;
 }
 
@@ -55,11 +69,32 @@
 }
 
 .MeetingQuill {
-    height: 300px
+    height: 10rem;
 }
 
 .MeetingCardContainer {
     margin-right: 1rem;
 }
+
+.DateTimeContainer{
+    display: flex;
+    margin-top: 1rem;
+}
+
+.DateTimeContainer > div:nth-child(2){
+    margin-left: 2rem;
+}
+
+.ql-toolbar{
+    background-color: #d9d9d9;
+}
+
+.EditContainer{
+    display: flex;
+}
+
+// .MeetingsDialogTitle{
+//     padding-left: 0;
+// }
   
   
