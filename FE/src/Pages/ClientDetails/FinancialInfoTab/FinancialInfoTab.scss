@@ -1,0 +1,57 @@
+@import "../../../styles/variables";
+@import "../../../styles/fonts";
+
+.FinancialInfoContainer, .ClientGoalsContainer{
+    width: 100%;
+    margin-top: 1em;
+    display: grid;
+}
+
+
+.FinancialInfoTextfield{
+    background-color: $color-medium-grey;
+    margin-bottom: 1rem !important;
+    width: 100%;
+}
+
+.SalaryField{
+    width: 98%;
+}
+
+.FlexRow {
+    display: flex;
+}
+
+.FlexItem {
+    flex: 1;
+}
+
+.ExistingPlansContainer{
+    display: flex;
+    margin-top: 1em;
+}
+
+.NeedsAnalysisHeader{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1em;
+
+}
+
+.CreateDocument, .SaveButton{
+    color: white !important;
+    background-color: $color-dark-green !important;
+}
+
+.ClientGoalsTextArea{
+    @include textarea;
+    margin-top: 1em;
+    background-color: $color-medium-grey;
+    height: 10em;
+}
+
+.SaveButtonContainer{
+    display: flex;
+    justify-content: center;
+}
+

@@ -16,8 +16,8 @@
 
 @mixin textarea {
   font-family: "Avenir Regular";
-  background-color: $alabaster;
-  border: 2px solid $mercury;
+  // background-color: $alabaster;
+  border: 2px solid darkgray; //$mercury
   border-radius: 3px;
   width: 100%;
   line-height: 2em;

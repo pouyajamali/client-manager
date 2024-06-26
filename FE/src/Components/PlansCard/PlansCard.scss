@@ -1,0 +1,30 @@
+@import "../../styles/variables";
+@import "../../styles/fonts";
+
+.CardContainer{
+    width: 30%;
+    height: 17em;
+    flex-direction: column;
+    display: flex;
+    margin-right: 1em;
+    margin-bottom: 1em;
+}
+
+.PlansLogo, .Actions{
+    display: flex;
+    justify-content: center; 
+}
+
+.Actions{
+    margin-top: auto;
+}
+
+.PlansLogo{
+    margin-bottom: 2em !important;
+}
+
+.PlanInfo{
+    display: flex;
+    align-items: center;
+}
+

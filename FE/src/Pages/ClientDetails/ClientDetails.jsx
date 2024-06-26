@@ -12,6 +12,7 @@ import ClientDetailsInfoTab from "./InfoTab/ClientDetailsInfoTab";
 import ClientDetailsMeetingsTab from "./MeetingsTab/ClientDetailsMeetingsTab";
 import { useState, useEffect } from "react";
 import { getClientDetail } from "../../Apis/Clients";
+import FinancialInfoTab from "./FinancialInfoTab/FinancialInfoTab";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -89,13 +90,18 @@ function ClientDetails() {
           className="customTabsClass"
         >
           <Tab label="Info Tab" {...a11yProps(0)} />
-          <Tab label="Meetings Tab" {...a11yProps(1)} />
+          <Tab label="Financial Info Tab" {...a11yProps(1)} />
+          <Tab label="Meetings Tab" {...a11yProps(2)} />
+
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0} dir={theme.direction}>
         <ClientDetailsInfoTab values={clientInfo} clientId={clientId} />
       </TabPanel>
       <TabPanel value={value} index={1} dir={theme.direction}>
+        <FinancialInfoTab />
+      </TabPanel>
+      <TabPanel value={value} index={2} dir={theme.direction}>
         <ClientDetailsMeetingsTab
           values={clientMeetings}
           refresher={() => refresher()}
