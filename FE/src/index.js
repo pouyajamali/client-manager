@@ -6,6 +6,7 @@ import Header from "./Components/Header/Header";
 import ClientsList from "./Pages/ClientsList/ClientsList";
 import "./index.scss";
 import ClientDetails from "./Pages/ClientDetails/ClientDetails";
+import CreateNewDocument from "./Pages/Document/CreateNewDocument/CreateNewDocument";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -16,6 +17,7 @@ root.render(
         <Routes>
           <Route exact path="/" element={<ClientsList />} />
           <Route exact path="/:clientId" element={<ClientDetails />} />
+          <Route exact path="/document/create" element={<CreateNewDocument />} />
         </Routes>
       </div>
     </Router>

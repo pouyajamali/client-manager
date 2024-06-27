@@ -6,8 +6,16 @@ import Button from "@mui/material/Button";
 import "./FinancialInfoTab.scss";
 import ExistingPlansCard from "../../../Components/PlansCard/PlansCard";
 import DocumentCard from "../../../Components/DocumentCard/DocumentCard";
+import { useNavigate } from "react-router-dom";
 
 function FinancialInfoTab() {
+
+  const navigate = useNavigate()
+
+  const createDocumentClicked = (e) => {
+    e.preventDefault();
+    navigate("/document/create")
+  }
   return (
     <div className="TabContainer">
       <Typography fontSize={"20px"} fontWeight={700}>
@@ -90,7 +98,7 @@ function FinancialInfoTab() {
           <Typography fontSize={"20px"} fontWeight={700}>
             Needs Analysis
           </Typography>
-          <Button type="submit" variant="contained" className="CreateDocument">
+          <Button type="submit" variant="contained" className="CreateDocument" onClick={createDocumentClicked}>
             Create new document
           </Button>
         </div>

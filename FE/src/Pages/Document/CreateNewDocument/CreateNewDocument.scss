@@ -1,0 +1,19 @@
+@import "../../../styles/variables";
+@import "../../../styles/fonts";
+
+div.Wizard{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+}
+
+.DocumentStepper{
+    width: 600px;
+}
+
+.NavigationButtonsContainer{
+    display: "flex" !important;
+    flex-direction: "row" !important;
+
+}
