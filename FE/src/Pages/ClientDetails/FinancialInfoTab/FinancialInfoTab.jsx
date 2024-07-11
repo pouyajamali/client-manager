@@ -8,13 +8,13 @@ import ExistingPlansCard from "../../../Components/PlansCard/PlansCard";
 import DocumentCard from "../../../Components/DocumentCard/DocumentCard";
 import { useNavigate } from "react-router-dom";
 
-function FinancialInfoTab() {
+function FinancialInfoTab(values) {
 
   const navigate = useNavigate()
 
   const createDocumentClicked = (e) => {
     e.preventDefault();
-    navigate("/document/create")
+    navigate("/document/create", {state: values})
   }
   return (
     <div className="TabContainer">

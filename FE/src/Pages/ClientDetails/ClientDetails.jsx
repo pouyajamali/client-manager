@@ -92,14 +92,13 @@ function ClientDetails() {
           <Tab label="Info Tab" {...a11yProps(0)} />
           <Tab label="Financial Info Tab" {...a11yProps(1)} />
           <Tab label="Meetings Tab" {...a11yProps(2)} />
-
         </Tabs>
       </AppBar>
       <TabPanel value={value} index={0} dir={theme.direction}>
         <ClientDetailsInfoTab values={clientInfo} clientId={clientId} />
       </TabPanel>
       <TabPanel value={value} index={1} dir={theme.direction}>
-        <FinancialInfoTab />
+        <FinancialInfoTab values={clientInfo} />
       </TabPanel>
       <TabPanel value={value} index={2} dir={theme.direction}>
         <ClientDetailsMeetingsTab
