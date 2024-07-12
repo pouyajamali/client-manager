@@ -29,7 +29,7 @@ export default function CreateNewDocument() {
   const [activeStep, setActiveStep] = React.useState(0);
   const [generalInfo, setGeneralInfo] = React.useState({
     policyName: "",
-    date: null,
+    date: DateTime.now(),
     owner: "",
     insured: "",
   });
@@ -48,6 +48,12 @@ export default function CreateNewDocument() {
     PolicyTypes.PermanentLife
   );
 
+  const [plSubType, setPlsubtype] = React.useState("");
+  const [plAmount, setPlAmount] = React.useState(0);
+  const [fna, setFna] = React.useState(0);
+  const [cashflow, setCashflow] = React.useState(0);
+  const [monthlyContrib, setMonthlyContrib] = React.useState(0);
+
   const handlePolicyType = (event) => {
     setSelectedPolicyType(event.target.value);
   };
@@ -63,7 +69,23 @@ export default function CreateNewDocument() {
     navigate(`/${values.id}`);
   };
 
-  const handleReset = () => {
+  const handleDone = () => {
+    const policyData = {
+      generalInfo: {
+        ...generalInfo,
+        insured: InsuredSameAsOwner && generalInfo.owner 
+      },
+      policyInfo: {
+        policyType: selectedPolicyType,
+        plSubType,
+        plAmount,
+        tl: termPolicyYearAmount,
+        FNA: fna,
+        cashflow,
+        monthlyContrib,
+      },
+    };
+    console.log(policyData)
     navigate(`/${values.id}`);
   };
 
@@ -111,7 +133,7 @@ export default function CreateNewDocument() {
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
             <Box sx={{ flex: "1 1 auto" }} />
-            <Button onClick={handleReset}>Done</Button>
+            <Button onClick={handleDone}>Done</Button>
           </Box>
         </>
       ) : (
@@ -137,7 +159,6 @@ export default function CreateNewDocument() {
                   id="outlined-required"
                   variant="filled"
                   className="TwoColumnSpan"
-                  defaultValue={DateTime.now()}
                   format="DD"
                   renderInput={(params) => <TextField {...params} />}
                   value={generalInfo.date}
@@ -156,10 +177,12 @@ export default function CreateNewDocument() {
                 defaultValue={values.name}
                 className="TwoColumnSpan"
                 value={generalInfo.owner}
-                onChange={(e) => setGeneralInfo(prevState => ({
-                  ...prevState,
-                  owner: e.target.value
-                }))}
+                onChange={(e) =>
+                  setGeneralInfo((prevState) => ({
+                    ...prevState,
+                    owner: e.target.value,
+                  }))
+                }
               />
               <FormControlLabel
                 control={
@@ -178,6 +201,13 @@ export default function CreateNewDocument() {
                 id="outlined-required"
                 label="Insured"
                 variant="filled"
+                value={generalInfo.insured}
+                onChange={(e) =>
+                  setGeneralInfo((prevState) => ({
+                    ...prevState,
+                    insured: e.target.value,
+                  }))
+                }
                 className={`TwoColumnSpan ${
                   InsuredSameAsOwner ? "hidden" : ""
                 }`}
@@ -210,12 +240,16 @@ export default function CreateNewDocument() {
                   <FormControl fullWidth variant="filled">
                     <InputLabel>Sub-type</InputLabel>
                     <Select
-                      // value={period}
+                      value={plSubType}
                       label="Sub-type"
-                      // onChange={handleChange}
+                      onChange={(e) => {
+                        setPlsubtype(e.target.value);
+                      }}
                     >
-                      <MenuItem value={1}>World Life</MenuItem>
-                      <MenuItem value={2}>Universal Life</MenuItem>
+                      <MenuItem value={"WorldLife"}>World Life</MenuItem>
+                      <MenuItem value={"UniversalLife"}>
+                        Universal Life
+                      </MenuItem>
                     </Select>
                   </FormControl>
                   <FormControl fullWidth variant="filled">
@@ -223,6 +257,11 @@ export default function CreateNewDocument() {
                       Amount
                     </InputLabel>
                     <FilledInput
+                      type="number"
+                      value={plAmount}
+                      onChange={(e) => {
+                        setPlAmount(e.target.value);
+                      }}
                       id="filled-adornment-amount"
                       startAdornment={
                         <InputAdornment position="start">$</InputAdornment>
@@ -305,6 +344,11 @@ export default function CreateNewDocument() {
                   FNA Amount
                 </InputLabel>
                 <FilledInput
+                  type="number"
+                  value={fna}
+                  onChange={(e) => {
+                    setFna(e.target.value);
+                  }}
                   id="filled-adornment-amount"
                   startAdornment={
                     <InputAdornment position="start">$</InputAdornment>
@@ -316,6 +360,11 @@ export default function CreateNewDocument() {
                   Cashflow
                 </InputLabel>
                 <FilledInput
+                  type="number"
+                  value={cashflow}
+                  onChange={(e) => {
+                    setCashflow(e.target.value);
+                  }}
                   id="filled-adornment-amount"
                   startAdornment={
                     <InputAdornment position="start">$</InputAdornment>
@@ -327,6 +376,11 @@ export default function CreateNewDocument() {
                   Monthly Contribution
                 </InputLabel>
                 <FilledInput
+                  type="number"
+                  value={monthlyContrib}
+                  onChange={(e) => {
+                    setMonthlyContrib(e.target.value);
+                  }}
                   id="filled-adornment-amount"
                   startAdornment={
                     <InputAdornment position="start">$</InputAdornment>
