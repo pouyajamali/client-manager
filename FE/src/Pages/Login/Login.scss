@@ -1,3 +1,6 @@
+@import "../../styles/variables";
+@import "../../styles/fonts";
+
 .LoginContainer {
   background-image: url("../../Assets/Images/LoginBackground.png");
   background-size: cover;
@@ -13,6 +16,39 @@ body:has(.LoginPage) {
 
 .MainContainer.LoginPage {
   margin: 0;
-  width: 100%;
-  height: 100%;
+}
+
+.EmailPassContainer{
+  background-color: #F8F8F8;
+  left: 8vw;
+  position: absolute;
+  top: 23vh;
+  width: 26vw !important;
+  height: 60vh;
+  border-radius: 20px;
+  display: flex !important;
+  flex-direction: column;
+  align-items: center;
+}
+
+.LogoLogin{
+  width: 18vw;
+  margin-top: 5vh;
+}
+
+h5{
+  margin-top: 8vh;
+  margin-bottom: 8vh;
+  @include heading-5
+}
+
+.LoginButton{
+  color: white !important;
+  background-color: $color-dark-green !important;
+  margin-top: 2vh !important;
+  height: 5vh;
+}
+
+.ErrorMessage{
+  color: red;
 }
