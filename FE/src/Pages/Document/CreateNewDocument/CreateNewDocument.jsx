@@ -17,6 +17,7 @@ import RadioGroup from "@mui/material/RadioGroup";
 import FormLabel from "@mui/material/FormLabel";
 import FilledInput from "@mui/material/FilledInput";
 import InputAdornment from "@mui/material/InputAdornment";
+import Autocomplete from "@mui/material/Autocomplete";
 
 import "./CreateNewDocument.scss";
 import { useNavigate, useLocation } from "react-router-dom";
@@ -24,6 +25,7 @@ import { LocalizationProvider, DateField } from "@mui/x-date-pickers";
 import { AdapterLuxon } from "@mui/x-date-pickers/AdapterLuxon";
 import { DateTime } from "luxon";
 const steps = ["Step 1", "Step 2", "Step 3"];
+const factors = ["Income", "Life Style", "Growing Liquid Assets"];
 
 export default function CreateNewDocument() {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -35,8 +37,19 @@ export default function CreateNewDocument() {
   });
   const [InsuredSameAsOwner, setInsuredSameAsOwner] = React.useState(true);
   const [termPolicyYearAmount, setTermPolicyYearAmount] = React.useState([
-    { years: null, amount: null },
+    {
+      years: null,
+      amount: null,
+      // , yearsOther: null
+    },
   ]);
+  const [currentPolicyYearAmount, setCurrentPolicyYearAmount] = React.useState({
+    years: null,
+    amount: null,
+  });
+  const [customerExistingPlans, setCustomerExistingPlans] =
+    React.useState(false);
+  const CompanyNames = ["Equitable Life", "Fidelity", "IA"];
   const navigate = useNavigate();
   const location = useLocation();
   const { values } = location.state || {};
@@ -44,15 +57,27 @@ export default function CreateNewDocument() {
     PermanentLife: "pl",
     TermLife: "tl",
   };
+  const PermLifeSubtype = {
+    WholeLife: "Whole Life",
+    UniversalLife: "Universal Life",
+  };
+  const RetirementStrategy = {
+    IFA: "IFA",
+    IRP: "IRP",
+  };
   const [selectedPolicyType, setSelectedPolicyType] = React.useState(
     PolicyTypes.PermanentLife
   );
 
   const [plSubType, setPlsubtype] = React.useState("");
+  const [retirementStrategy, setRetirementStrategy] = React.useState("");
   const [plAmount, setPlAmount] = React.useState(0);
   const [fna, setFna] = React.useState(0);
   const [cashflow, setCashflow] = React.useState(0);
   const [monthlyContrib, setMonthlyContrib] = React.useState(0);
+  const [contributionPeriod, setContributionPeriod] = React.useState(0);
+  const [ror, setRor] = React.useState(0);
+  const [surrenderPeriod, setSurrenderPeriod] = React.useState(0);
 
   const handlePolicyType = (event) => {
     setSelectedPolicyType(event.target.value);
@@ -73,7 +98,7 @@ export default function CreateNewDocument() {
     const policyData = {
       generalInfo: {
         ...generalInfo,
-        insured: InsuredSameAsOwner && generalInfo.owner 
+        insured: InsuredSameAsOwner && generalInfo.owner,
       },
       policyInfo: {
         policyType: selectedPolicyType,
@@ -85,32 +110,18 @@ export default function CreateNewDocument() {
         monthlyContrib,
       },
     };
-    console.log(policyData)
+    console.log(policyData);
     navigate(`/${values.id}`);
   };
 
   const handleTermLifeAdd = () => {
-    setTermPolicyYearAmount(
-      [{ years: null, amount: null }].concat(termPolicyYearAmount)
-    );
-  };
-
-  const handleTermYearChange = (value, index) => {
-    let termPolicyYearAmountCopy = [...termPolicyYearAmount];
-    termPolicyYearAmountCopy[index] = {
-      years: value,
-      amount: termPolicyYearAmountCopy[index].amount,
-    };
-    setTermPolicyYearAmount(termPolicyYearAmountCopy);
-  };
-
-  const handleTermAmountChange = (value, index) => {
-    let termPolicyYearAmountCopy = [...termPolicyYearAmount];
-    termPolicyYearAmountCopy[index] = {
-      years: termPolicyYearAmountCopy[index].years,
-      amount: value,
-    };
-    setTermPolicyYearAmount(termPolicyYearAmountCopy);
+    if (currentPolicyYearAmount.amount && currentPolicyYearAmount.years) {
+      setTermPolicyYearAmount([
+        ...termPolicyYearAmount,
+        currentPolicyYearAmount,
+      ]);
+      setCurrentPolicyYearAmount({ amount: null, years: null });
+    }
   };
 
   return (
@@ -216,6 +227,25 @@ export default function CreateNewDocument() {
           ) : activeStep === 1 ? (
             <div className="FieldContainer">
               <FormControl className="TwoColumnSpan">
+                <FormLabel className="CompanyLabel">
+                  Product Offered by
+                </FormLabel>
+                <FormControl fullWidth variant="filled">
+                  <InputLabel>Company Name</InputLabel>
+                  <Select
+                    value={plSubType}
+                    label="Company Name"
+                    onChange={(e) => {
+                      setPlsubtype(e.target.value);
+                    }}
+                  >
+                    {CompanyNames.map((company) => (
+                      <MenuItem value={company}>{company}</MenuItem>
+                    ))}
+                  </Select>
+                </FormControl>
+              </FormControl>
+              <FormControl className="TwoColumnSpan">
                 <FormLabel>Policy Type</FormLabel>
                 <RadioGroup row name="row-radio-buttons-group">
                   <FormControlLabel
@@ -246,12 +276,15 @@ export default function CreateNewDocument() {
                         setPlsubtype(e.target.value);
                       }}
                     >
-                      <MenuItem value={"WorldLife"}>World Life</MenuItem>
-                      <MenuItem value={"UniversalLife"}>
-                        Universal Life
+                      <MenuItem value={PermLifeSubtype.WholeLife}>
+                        {PermLifeSubtype.WholeLife}
+                      </MenuItem>
+                      <MenuItem value={PermLifeSubtype.UniversalLife}>
+                        {PermLifeSubtype.UniversalLife}
                       </MenuItem>
                     </Select>
                   </FormControl>
+
                   <FormControl fullWidth variant="filled">
                     <InputLabel htmlFor="filled-adornment-amount">
                       Amount
@@ -268,30 +301,121 @@ export default function CreateNewDocument() {
                       }
                     />
                   </FormControl>
-                </>
-              ) : (
-                <>
-                  {termPolicyYearAmount.map((item, index) => (
+
+                  {plSubType === PermLifeSubtype.WholeLife && (
+                    <FormControl
+                      fullWidth
+                      variant="filled"
+                      className="TwoColumnSpan"
+                    >
+                      <InputLabel>Retirement Strategy</InputLabel>
+                      <Select
+                        value={retirementStrategy}
+                        onChange={(e) => {
+                          setRetirementStrategy(e.target.value);
+                        }}
+                      >
+                        <MenuItem value={RetirementStrategy.IFA}>
+                          {RetirementStrategy.IFA}
+                        </MenuItem>
+                        <MenuItem value={RetirementStrategy.IRP}>
+                          {RetirementStrategy.IRP}
+                        </MenuItem>
+                      </Select>
+                    </FormControl>
+                  )}
+
+                  {plSubType === PermLifeSubtype.UniversalLife && (
                     <>
                       <FormControl
                         fullWidth
                         variant="filled"
-                        disabled={index > 0}
+                        className="TwoColumnSpan"
                       >
-                        <InputLabel>Number of Years</InputLabel>
-                        <Select
-                          value={termPolicyYearAmount[index].years}
-                          label="Sub-type"
+                        <TextField
+                          label="Contribution Period (Years)"
+                          variant="filled"
+                          value={contributionPeriod}
+                          type="number"
                           onChange={(e) => {
-                            handleTermYearChange(e.target.value, index);
+                            setContributionPeriod(e.target.value);
                           }}
-                          fullWidth
-                        >
-                          <MenuItem value={10}>10 years</MenuItem>
-                          <MenuItem value={20}>20 years</MenuItem>
-                          <MenuItem value={30}>30 years</MenuItem>
-                        </Select>
+                        />
                       </FormControl>
+                      <FormControl
+                        fullWidth
+                        variant="filled"
+                        className="TwoColumnSpan"
+                      >
+                        <InputLabel htmlFor="filled-adornment-amount">
+                          Rate of Return
+                        </InputLabel>
+                        <FilledInput
+                          onChange={(e) => {
+                            setRor(e.target.value);
+                          }}
+                          value={ror}
+                          id="filled-adornment-amount"
+                          startAdornment={
+                            <InputAdornment position="start">%</InputAdornment>
+                          }
+                        />
+                      </FormControl>
+                      <FormControl
+                        fullWidth
+                        variant="filled"
+                        className="TwoColumnSpan"
+                      >
+                        <TextField
+                          label="Surrender Charge Period (Years)"
+                          variant="filled"
+                          value={surrenderPeriod}
+                          type="number"
+                          onChange={(e) => {
+                            setSurrenderPeriod(e.target.value);
+                          }}
+                        />
+                      </FormControl>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  {termPolicyYearAmount?.map((item, index) => (
+                    <>
+                      <Autocomplete
+                        disabled={index > 0}
+                        freeSolo
+                        options={[10, 20, 25, 30].map((option) =>
+                          option.toString()
+                        )}
+                        getOptionLabel={(option) => option.toString()}
+                        value={
+                          index > 0
+                            ? item.years?.toString() || ""
+                            : currentPolicyYearAmount.years?.toString() || ""
+                        }
+                        inputValue={
+                          index > 0
+                            ? item.years?.toString() || ""
+                            : currentPolicyYearAmount.years?.toString() || ""
+                        }
+                        onInputChange={(e, newInputValue) => {
+                          setCurrentPolicyYearAmount({
+                            ...currentPolicyYearAmount,
+                            years: newInputValue,
+                          });
+                        }}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Number of Years"
+                            variant="filled"
+                            type="number"
+                          />
+                        )}
+                      />
+
                       <div className="RemoveTermContainer">
                         <FormControl
                           fullWidth
@@ -303,9 +427,17 @@ export default function CreateNewDocument() {
                           </InputLabel>
                           <FilledInput
                             onChange={(e) => {
-                              handleTermAmountChange(e.target.value, index);
+                              setCurrentPolicyYearAmount({
+                                ...currentPolicyYearAmount,
+                                amount: e.target.value,
+                              });
                             }}
-                            value={termPolicyYearAmount[index].amount}
+                            value={
+                              index > 0
+                                ? item.amount?.toString() || ""
+                                : currentPolicyYearAmount.amount?.toString() ||
+                                  ""
+                            }
                             id="filled-adornment-amount"
                             startAdornment={
                               <InputAdornment position="start">
@@ -314,6 +446,7 @@ export default function CreateNewDocument() {
                             }
                           />
                         </FormControl>
+
                         {index > 0 && (
                           <Button
                             onClick={(e) => {
@@ -387,6 +520,33 @@ export default function CreateNewDocument() {
                   }
                 />
               </FormControl>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    defaultChecked
+                    checked={customerExistingPlans}
+                    onChange={(e) => {
+                      setCustomerExistingPlans(e.target.checked);
+                    }}
+                  />
+                }
+                label="Customer has existing plans"
+                className="TwoColumnSpan"
+              />
+            </div>
+          ) : activeStep === 2 ? (
+            <div style={{display:'flex', flexDirection: 'column'}}>
+              <FormLabel component="legend" sx={{ mt: 2, mb: 1, py: 1 }}>
+                Factors accounted for in choosing the amount:
+              </FormLabel>
+
+              {factors.map((factor, index) => (
+                <FormControlLabel
+                  control={<Checkbox defaultChecked />}
+                  label={factor}
+                  key={index}
+                />
+              ))}
             </div>
           ) : (
             <>
