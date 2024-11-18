@@ -1,0 +1,28 @@
+@import "../../styles/variables";
+@import "../../styles/fonts";
+ 
+
+.PDFIconContainer{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: wrap;
+    height: 15em;
+    background-color: $color-medium-grey;
+}
+
+.PDFIcon{
+    height: 3em;
+}
+
+.DocumentCardContainer{
+    width: 20%;
+    // height: 15em;
+}
+
+.DocumentName{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 250px;
+    overflow: hidden;
+}

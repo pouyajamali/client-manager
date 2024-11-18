@@ -1,0 +1,61 @@
+@import "../../../styles/variables";
+@import "../../../styles/fonts";
+
+div.Wizard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.DocumentStepper {
+  width: $width-document-generation;
+}
+
+.NavigationButtonsContainer {
+  display: flex !important;
+  flex-direction: row !important;
+  width: $width-document-generation;
+  justify-content: space-between;
+}
+
+.NextButton {
+  color: white !important;
+  background-color: $color-dark-green !important;
+}
+.FieldContainer {
+  margin-top: 2em;
+  margin-bottom: 1em;
+  display: grid;
+  gap: 0.5em;
+  grid-template-columns: 1fr 1fr;
+  width: 40%;
+}
+
+.TwoColumnSpan {
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.hidden {
+  opacity: 0;
+  height: 0;
+  display: none !important;
+}
+
+.AddBtnContainer {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.TermLifeAdded{
+  text-align: center;
+  height: 2em
+}
+
+.RemoveTermContainer{
+  display: flex;
+}
+
+.CompanyLabel{
+  margin-bottom: 0.5em !important;
+}

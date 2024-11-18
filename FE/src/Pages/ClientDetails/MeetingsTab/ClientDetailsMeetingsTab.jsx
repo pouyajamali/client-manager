@@ -165,9 +165,6 @@ function ClientDetailsMeetingsTab({ values, refresher }) {
                   <DatePicker
                     label="Select date"
                     defaultValue={DateTime.now()}
-                    // onChange={(newDate) => {
-                    //   setSelectedDate(newDate);
-                    // }}
                     disabled={dialogType === FORM_TYPES.VIEW}
                     renderInput={(params) => <TextField {...params} />}
                   />
@@ -182,10 +179,6 @@ function ClientDetailsMeetingsTab({ values, refresher }) {
                     defaultValue={DateTime.now()}
                     label="Select time"
                     disabled={dialogType === FORM_TYPES.VIEW}
-                    // value={}
-                    // onChange={(newDate) => {
-                    //   setSelectedDate(newDate);
-                    // }}
                     renderInput={(params) => <TextField {...params} />}
                   />
                 </LocalizationProvider>
